@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
+
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -67,12 +69,11 @@ export default function SearchBar() {
               className="text-black focus:outline-none ml-4 bg-white p-1 w-150 rounded shadow-2xl placeholder:text-gray-700 text-center cursor-pointer"
             />
           </div>
-
           {/* Categories Dropdown */}
-          <div className="relative">
+          <div className="ml-auto">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="bg-white p-1 text-indigo-600 ml-28 rounded-3xl border-2 hover:bg-indigo-600 hover:text-white transition"
+              className=" bg-indigo-600 p-1 text-white ml-28 rounded-3xl border-2 hover:bg-white hover:text-indigo-600 transition"
             >
               Categories
             </button>
@@ -97,11 +98,12 @@ export default function SearchBar() {
           </div>
 
           {/* Buttons */}
-          <div className="gap-5 ml-auto flex">
-            <button className="w-15 items-center bg-gray-100 border-2 py-1 px-3 focus:outline-none hover:bg-indigo-600 mt-4 md:mt-0 hover:text-white text-indigo-600 rounded-3xl cursor-pointer">
-              Sell
+          <div className="ml-auto flex gap-2">
+            <button className="flex  items-center gap-2 border-2 py-1 px-3 focus:outline-none hover:bg-white mt-4 md:mt-0 hover:text-indigo-600 bg-indigo-600 p-1 text-white rounded-3xl cursor-pointer">
+              <FaPlus/>
+               Sell
             </button>
-            <button className="items-center bg-gray-100 border-2 py-1 px-3 focus:outline-none hover:bg-indigo-600 mt-4 md:mt-0 hover:text-white text-indigo-600 rounded-3xl cursor-pointer">
+            <button className="items-center border-2 py-1 px-3 focus:outline-none hover:bg-white mt-4 md:mt-0 hover:text-indigo-600 bg-indigo-600 p-1 text-white rounded-3xl cursor-pointer">
               Login
             </button>
           </div>
