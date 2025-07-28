@@ -1,12 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 
-
 export default function SearchBar() {
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([
+  const [suggestions] = useState([
     "Mumbai,Maharashtra",
     "Navi-Mumbai",
     "Mumbra",
@@ -21,8 +20,19 @@ export default function SearchBar() {
     "Bangalore",
     "Hyderabad",
   ]);
-
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  // Close dropdown when clicked outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".dropdown-container")) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   const filtered = suggestions.filter((item) =>
     item.toLowerCase().includes(query.toLowerCase())
@@ -30,10 +40,10 @@ export default function SearchBar() {
 
   return (
     <header className="text-gray-600 body-font">
-      <div className="mx-auto p-5 md:flex-row">
-        <nav className="text-white bg-indigo-600 md:ml-auto p-3 rounded-2xl flex items-center gap-5">
+      <div className="mx-auto md:flex-row">
+        <nav className="fixed z-[999] w-full text-white bg-indigo-600 md:ml-auto p-3 flex items-center justify-between gap-5">
           {/* Logo */}
-          <h1 className="text-left text-2xl">Olxified</h1>
+          <h1 className="text-left text-2xl font-bold">Olxified</h1>
 
           {/* Location Search */}
           <div className="relative flex items-center">
@@ -69,41 +79,47 @@ export default function SearchBar() {
               className="text-black focus:outline-none ml-4 bg-white p-1 w-150 rounded shadow-2xl placeholder:text-gray-700 text-center cursor-pointer"
             />
           </div>
+
           {/* Categories Dropdown */}
-          <div className="ml-auto">
+          <div className="relative dropdown-container">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className=" bg-indigo-600 p-1 text-white ml-28 rounded-3xl border-2 hover:bg-white hover:text-indigo-600 transition"
+              className="bg-indigo-500 hover:bg-indigo-700 text-white font-medium px-5 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"
             >
               Categories
             </button>
-            {dropdownOpen && (
-              <div className="absolute mt-2 w-40 bg-white shadow-lg rounded-lg z-20">
-                <ul className="py-2 text-black">
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Bikes
-                  </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Cars
-                  </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Mobile Phones
-                  </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Jewellery
-                  </li>
-                </ul>
-              </div>
-            )}
+
+            <div
+              className={`absolute mt-2 w-40 bg-white shadow-lg rounded-lg z-20 transform transition-all duration-300 ease-in-out ${
+                dropdownOpen
+                  ? "opacity-100 scale-100 translate-y-0"
+                  : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+              }`}
+            >
+              <ul className="py-2 text-black">
+                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  Bikes
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  Cars
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  Mobile Phones
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  Jewellery
+                </li>
+              </ul>
+            </div>
           </div>
 
           {/* Buttons */}
-          <div className="ml-auto flex gap-2">
-            <button className="flex  items-center gap-2 border-2 py-1 px-3 focus:outline-none hover:bg-white mt-4 md:mt-0 hover:text-indigo-600 bg-indigo-600 p-1 text-white rounded-3xl cursor-pointer">
-              <FaPlus/>
-               Sell
+          <div className="flex gap-2">
+            <button className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-medium px-5 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
+              <FaPlus />
+              Sell
             </button>
-            <button className="items-center border-2 py-1 px-3 focus:outline-none hover:bg-white mt-4 md:mt-0 hover:text-indigo-600 bg-indigo-600 p-1 text-white rounded-3xl cursor-pointer">
+            <button className="bg-white text-indigo-600 font-medium px-5 py-2 rounded-full border-3 border-indigo-400 shadow-md hover:bg-indigo-50 transition-all duration-300 ease-in-out">
               Login
             </button>
           </div>
