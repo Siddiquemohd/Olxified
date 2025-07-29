@@ -77,7 +77,7 @@ export default function Page() {
               <input
                 type="email"
                 placeholder="Your Email"
-                className="h-10 rounded-1xl text-black w-full p-2  focus:outline-none border-2 border-indigo-900"
+                className="h-10 rounded-1xl text-white w-full p-2  focus:outline-none border-2 border-indigo-900"
               />
               <button
                 type="submit"
