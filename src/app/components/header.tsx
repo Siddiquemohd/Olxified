@@ -1,6 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import { FaSearch, FaPlus, FaVideo } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -21,23 +25,25 @@ export default function SearchBar() {
   ]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [loginWithNumber, setLoginWithNumber] = useState(false);
   const [showSellModal, setShowSellModal] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [uploadType, setUploadType] = useState<"photo" | "video">("photo"); // NEW STATE
 
-    useEffect(() => {
-      const handleClickOutside = (e: MouseEvent) => {
-        const target = e.target as HTMLElement;
-        if (!target.closest(".dropdown-container")) {
-          setDropdownOpen(false);
-        }
-      };
-      document.addEventListener("click", handleClickOutside);
-      return () => document.removeEventListener("click", handleClickOutside);
-    }, []);
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".dropdown-container")) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   const filtered = suggestions.filter((item) =>
     item.toLowerCase().includes(query.toLowerCase())
   );
+const router = useRouter();
 
   return (
     <header className="text-gray-600 body-font">
@@ -93,18 +99,10 @@ export default function SearchBar() {
             }`}
           >
             <ul className="py-2 text-black">
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                Bikes
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                Cars
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                Mobile Phones
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                Jewellery
-              </li>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Bikes</li>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Cars</li>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Mobile Phones</li>
+              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Jewellery</li>
             </ul>
           </div>
         </div>
@@ -130,95 +128,148 @@ export default function SearchBar() {
         <div className="mx-auto md:flex-row"></div>
       </div>
 
-      {/* Login Modal */}
+      {/* LOGIN MODAL */}
       {showLogin && (
-        <div className="fixed inset-0 flex items-center justify-center bg-white z-[1000] transition-all">
+  <div className="fixed inset-0 flex items-center justify-center bg-white z-[1000] transition-all">
+    <button
+      className="absolute top-4 right-4 text-2xl font-bold text-gray-600 hover:text-gray-800"
+      onClick={() => setShowLogin(false)}
+    >
+      ✕
+    </button>
+    <div className="bg-white w-[400px] p-8 rounded-lg shadow-2xl relative overflow-hidden">
+      <h2 className="text-3xl font-bold mb-4 text-center">
+        {isSignUp ? "Sign Up to Olxified" : "Login to Olxified"}
+      </h2>
+
+      <div className="flex mb-6 justify-center rounded-full overflow-hidden">
+        <button
+          className={`px-4 py-2 transition-all duration-300 ${
+            !isSignUp ? "bg-indigo-600 text-white" : "bg-gray-100"
+          }`}
+          onClick={() => setIsSignUp(false)}
+        >
+          Sign In
+        </button>
+        <button
+          className={`px-4 py-2 transition-all duration-300 ${
+            isSignUp ? "bg-indigo-600 text-white" : "bg-gray-100"
+          }`}
+          onClick={() => setIsSignUp(true)}
+        >
+          Sign Up
+        </button>
+      </div>
+
+      <div
+        className={`relative transition-all duration-500 ease-in-out ${
+          isSignUp ? "h-[520px]" : "h-[260px]"
+        }`}
+      >
+        {/* Sign In Form */}
+        <form
+          className={`absolute w-full transition-all duration-500 ${
+            isSignUp
+              ? "translate-x-full opacity-0"
+              : "translate-x-0 opacity-100"
+          }`}
+        >
+          <input
+            type="email"
+            placeholder="Email"
+            className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            required
+          />
           <button
-            className="absolute top-4 right-4 text-2xl font-bold text-gray-600 hover:text-gray-800"
-            onClick={() => setShowLogin(false)}
+            type="submit"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 w-full rounded"
           >
-            ✕
+            Login
           </button>
-          <div className="bg-white w-[400px] p-8 rounded-lg shadow-2xl relative overflow-hidden">
-            <h2 className="text-3xl font-bold mb-4 text-center">Login to Olxified</h2>
+          <p className="text-center mt-4 text-sm">
+            Don’t have an account?{" "}
+            <span
+              className="text-indigo-600 cursor-pointer hover:underline"
+              onClick={() => setIsSignUp(true)}
+            >
+              Sign Up
+            </span>
+          </p>
+        </form>
 
-            <div className="flex mb-6 justify-center border rounded-full border-none overflow-hidden">
-              <button
-                className={`px-4 py-2 transition-all duration-300 ${
-                  !loginWithNumber ? "bg-indigo-600 text-white" : "bg-gray-100"
-                }`}
-                onClick={() => setLoginWithNumber(false)}
-              >
-                Sign In
-              </button>
-              <button
-                className={`px-4 py-2 transition-all duration-300 ${
-                  loginWithNumber ? "bg-indigo-600 text-white" : "bg-gray-100"
-                }`}
-                onClick={() => setLoginWithNumber(true)}
-              >
-                Sign Up
-              </button>
-            </div>
+        {/* Sign Up Form */}
+        <form
+          className={`absolute w-full transition-all duration-500 ${
+            isSignUp
+              ? "translate-x-0 opacity-100"
+              : "-translate-x-full opacity-0"
+          }`}
+        >
+          <input
+            type="text"
+            placeholder="First Name"
+            className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            required
+          />
+          <input
+            type="tel"
+            placeholder="Phone Number"
+            className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            required
+          />
+          <button
+            type="submit"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 w-full rounded"
+          >
+            Signup
+          </button>
+          <p className="text-center mt-4 text-sm">
+            Already have an account?{" "}
+            <span
+              className="text-indigo-600 cursor-pointer hover:underline"
+              onClick={() => setIsSignUp(false)}
+            >
+              Sign In
+            </span>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+)}
 
 
-            <div className="relative h-[200px]">
-              <form
-                className={`absolute w-full transition-all duration-500 ${
-                  loginWithNumber
-                    ? "translate-x-full opacity-0"
-                    : "translate-x-0 opacity-100"
-                }`}
-              >
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                  required
-                />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 w-full rounded"
-                >
-                  Submit
-                </button>
-              </form>
-
-              <form
-                className={`absolute w-full transition-all duration-500 ${
-                  loginWithNumber
-                    ? "translate-x-0 opacity-100"
-                    : "-translate-x-full opacity-0"
-                }`}
-              >
-                <input
-                  type="tel"
-                  placeholder="Enter phone number"
-                  className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                  required
-                />
-                <button
-                  type="button"
-                  className="bg-green-600 hover:bg-green-700 text-white py-2 w-full rounded"
-                >
-                  Get OTP
-                </button>
-              </form>
-            </div>
-            <p className="text-sm text-gray-500 mt-6 text-center">
-              Don’t have an account? <a href="#" className="text-indigo-600">Sign Up</a>
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Sell Modal */}
+      {/* SELL MODAL WITH TOGGLE */}
       {showSellModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-white z-[1000] transition-all">
           <button
@@ -227,43 +278,51 @@ export default function SearchBar() {
           >
             ✕
           </button>
-          <div className="bg-white w-[500px] p-8 rounded-lg shadow-2xl relative">
+          <div className="bg-white w-[500px] p-8 rounded-lg shadow-2xl relative ">
             <h2 className="text-3xl font-bold mb-4 text-center">Post Your Ad</h2>
 
-            <input
-              type="text"
-              placeholder="Ad Title"
-              className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-green-400"
-            />
-            <textarea
-              placeholder="Description"
-              className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-green-400"
-            ></textarea>
-            <input
-              type="number"
-              placeholder="Set Price"
-              className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-green-400"
-            />
+            <input type="text" placeholder="Ad Title" className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+            <textarea placeholder="Description" className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"></textarea>
+            <input type="number" placeholder="Set Price" className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400" />
 
-            {/* Photo Upload */}
-            <label className="block font-semibold mb-2">Upload Photos</label>
-            <label className="border-2 border-dashed border-gray-300 rounded-md h-32 flex flex-col items-center justify-center cursor-pointer hover:border-green-400 transition">
-              <FaPlus className="text-gray-500 text-3xl mb-2" />
-              <span className="text-gray-500">Click to upload photos</span>
-              <input type="file" multiple accept="image/*" className="hidden" />
-            </label>
+            {/* Toggle Photos / Video */}
+            <div className="flex mb-6 justify-center rounded-full overflow-hidden  ">
+              <button
+                className={`px-4 py-2 transition-all duration-300 ${uploadType === "photo" ? "bg-indigo-600 text-white" : "bg-gray-100"}`}
+                onClick={() => setUploadType("photo")}
+              >
+                Photos
+              </button>
+              <button
+                className={`px-4 py-2 transition-all duration-300 ${uploadType === "video" ? "bg-indigo-600 text-white" : "bg-gray-100"}`}
+                onClick={() => setUploadType("video")}
+              >
+                Video
+              </button>
+            </div>
 
-            {/* Video Upload */}
-            <label className="block font-semibold mt-4 mb-2">Upload Video</label>
-            <label className="border-2 border-dashed border-gray-300 rounded-md h-32 flex flex-col items-center justify-center cursor-pointer hover:border-green-400 transition">
-              <FaVideo className="text-gray-500 text-3xl mb-2" />
-              <span className="text-gray-500">Click to upload video</span>
-              <input type="file" accept="video/*" className="hidden" />
-            </label>
+            {uploadType === "photo" ? (
+              <label className="border-2 border-dashed border-gray-300 rounded-md h-32 flex flex-col items-center justify-center cursor-pointer hover:border-indigo-400 transition">
+                <FaPlus className="text-gray-500 text-3xl mb-2" />
+                <span className="text-gray-500">Click to upload photos</span>
+                <input type="file" multiple accept="image/*" className="hidden" />
+              </label>
+            ) : (
+              <label className="border-2 border-dashed border-gray-300 rounded-md h-32 flex flex-col items-center justify-center cursor-pointer hover:border-indigo-400 transition">
+                <FaVideo className="text-gray-500 text-3xl mb-2" />
+                <span className="text-gray-500">Click to upload video</span>
+                <input type="file" accept="video/*" className="hidden" />
+              </label>
+            )}
+<Link
+  href="/list_details"
+  onClick={() => setShowSellModal(false)}
+  className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 w-full mt-4 rounded flex justify-center items-center"
+>
+  Submit Ad
+</Link>
 
-            <button className="bg-green-600 hover:bg-green-700 text-white py-2 w-full mt-4 rounded">
-              Submit Ad
-            </button>
+              
           </div>
         </div>
       )}
