@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 
-
 export default function SearchBar() {
+   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [query, setQuery] = useState("");
   const [suggestions] = useState([
     "Mumbai,Maharashtra",
@@ -181,7 +182,7 @@ const router = useRouter();
             required
           />
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
             required

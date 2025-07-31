@@ -5,7 +5,7 @@ const products = [
     id: 1,
     name: "Basic Tee",
     color: "Black",
-    price: `₹${Math.floor(Math.random() * (5000 - 1000) + 1000)}`,
+    price: `₹${Math.floor(Math.random() *(5000 - 1000) + 1000)}`,
     description: "A soft cotton tee for everyday wear.",
     imageSrc:
       "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-01.jpg",
