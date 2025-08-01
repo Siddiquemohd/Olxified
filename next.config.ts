@@ -6,7 +6,6 @@ const nextConfig = {
     domains: [
       'tailwindcss.com',
       'apollo.olx.in',
-      // Add other domains as needed
     ],
     remotePatterns: [
       {
@@ -21,18 +20,13 @@ const nextConfig = {
       },
     ],
   },
-  // AWS Amplify specific optimizations
   compress: true,
-  productionBrowserSourceMaps: false, // Disable for production
-  swcMinify: true,
-  // Enable React Strict Mode
+  productionBrowserSourceMaps: false,
   reactStrictMode: true,
-  // Configure build output
   distDir: '.next',
-  // Enable static export if needed
   trailingSlash: true,
 };
 
 module.exports = nextConfig;
-
 export default nextConfig;
+
