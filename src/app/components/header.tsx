@@ -186,7 +186,7 @@ export default function SearchBar() {
                 <input
                   type="email"
                   placeholder="Email"
-                  className="h-10 rounded-2xl text-white w-full p-2 focus:outline-none border-2 border-white"
+                  className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
                   suppressHydrationWarning
                   data-lpignore="true"
                   data-gramm="false"
@@ -199,7 +199,7 @@ export default function SearchBar() {
                 <input
                   type="password"
                   placeholder="Password"
-                  className="h-10 rounded-2xl text-white w-full p-2 focus:outline-none border-2 border-white"
+                  className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
                   suppressHydrationWarning
                   data-lpignore="true"
                   data-gramm="false"
@@ -232,7 +232,7 @@ export default function SearchBar() {
                 <input
                   type="text"
                   placeholder="First Name"
-                  className="h-10 rounded-2xl text-white w-full p-2 focus:outline-none border-2 border-white"
+                  className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
                   suppressHydrationWarning
                   data-lpignore="true"
                   data-gramm="false"
@@ -244,7 +244,7 @@ export default function SearchBar() {
                 <input
                   type="text"
                   placeholder="Last Name"
-                  className="h-10 rounded-2xl text-white w-full p-2 focus:outline-none border-2 border-white"
+                  className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
                   suppressHydrationWarning
                   data-lpignore="true"
                   data-gramm="false"
@@ -256,7 +256,7 @@ export default function SearchBar() {
                 <input
                   type="tel"
                   placeholder="Phone Number"
-                  className="h-10 rounded-2xl text-white w-full p-2 focus:outline-none border-2 border-white"
+                  className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
                   suppressHydrationWarning
                   data-lpignore="true"
                   data-gramm="false"
@@ -268,7 +268,7 @@ export default function SearchBar() {
                 <input
                   type="email"
                   placeholder="Email"
-                  className="h-10 rounded-2xl text-white w-full p-2 focus:outline-none border-2 border-white"
+                  className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
                   suppressHydrationWarning
                   data-lpignore="true"
                   data-gramm="false"
@@ -280,7 +280,7 @@ export default function SearchBar() {
                 <input
                   type="password"
                   placeholder="Password"
-                  className="h-10 rounded-2xl text-white w-full p-2 focus:outline-none border-2 border-white"
+                  className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
                   suppressHydrationWarning
                   data-lpignore="true"
                   data-gramm="false"
@@ -292,7 +292,7 @@ export default function SearchBar() {
                 <input
                   type="password"
                   placeholder="Confirm Password"
-                  className="h-10 rounded-2xl text-white w-full p-2 focus:outline-none border-2 border-white"
+                  className="border rounded p-3 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
                   suppressHydrationWarning
                   data-lpignore="true"
                   data-gramm="false"
