@@ -2,11 +2,21 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaTimes } from "react-icons/fa";
+import Image from "next/image";
+
+interface Ad {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  image: string;
+  type: "photo" | "video";
+}
 
 export default function ListingPage() {
   const router = useRouter();
 
-  const [ads] = useState([
+  const [ads] = useState<Ad[]>([
     {
       id: 1,
       title: "iPhone 13 Pro",
@@ -41,7 +51,7 @@ export default function ListingPage() {
     }
   ]);
 
-  const handleViewDetails = (ad: any) => {
+  const handleViewDetails = (ad: Ad) => {
     router.push(
       `/ad_details?title=${encodeURIComponent(ad.title)}&description=${encodeURIComponent(
         ad.description
@@ -53,7 +63,8 @@ export default function ListingPage() {
     <div className="relative w-full max-w-7xl mx-auto px-4 py-8">
       <button
         onClick={() => router.push("/")}
-        className="absolute top-4 right-4 text-gray-600 hover:text-red-500"
+        className="absolute top-6 right-6 text-gray-600 hover:text-red-500 transition"
+        aria-label="Close"
       >
         <FaTimes size={24} />
       </button>
@@ -65,17 +76,21 @@ export default function ListingPage() {
             key={ad.id}
             className="border rounded-lg shadow p-4 hover:shadow-lg transition"
           >
-            <img
-              src={ad.image}
-              alt={ad.title}
-              className="w-full h-40 object-cover rounded"
-            />
+            <div className="relative w-full h-40">
+              <Image
+                src={ad.image}
+                alt={ad.title}
+                fill
+                className="object-cover rounded"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
             <h2 className="text-xl font-semibold mt-4">{ad.title}</h2>
-            <p className="text-gray-600">{ad.description}</p>
-            <p className="text-indigo-600 font-bold mt-2">₹{ad.price}</p>
+            <p className="text-gray-600 line-clamp-2">{ad.description}</p>
+            <p className="text-indigo-600 font-bold mt-2">₹{ad.price.toLocaleString()}</p>
             <button
               onClick={() => handleViewDetails(ad)}
-              className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+              className="mt-4 w-full bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition"
             >
               View Details
             </button>

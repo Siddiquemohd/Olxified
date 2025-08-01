@@ -1,8 +1,79 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
+// Extension-proof button component
+const ExtensionProofButton = ({
+  className = '',
+  children,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+  const ref = React.useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.removeAttribute('fdprocessedid');
+      ref.current.removeAttribute('data-gramm-id');
+    }
+  }, []);
+
+  return (
+    <button
+      ref={ref}
+      {...props}
+      className={className}
+      suppressHydrationWarning
+      data-lpignore="true"
+      data-gramm="false"
+    >
+      {children}
+    </button>
+  );
+};
+
+// Extension-proof input component
+const ExtensionProofInput = ({
+  className = '',
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement>) => {
+  const ref = React.useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.removeAttribute('fdprocessedid');
+      ref.current.removeAttribute('data-gramm-id');
+    }
+  }, []);
+
+  return (
+    <input
+      ref={ref}
+      {...props}
+      className={className}
+      suppressHydrationWarning
+      data-lpignore="true"
+      data-gramm="false"
+    />
+  );
+};
+
 export default function Page() {
+  // Global extension cleanup
+  useEffect(() => {
+    const cleanExtensions = () => {
+      document.querySelectorAll('input, button').forEach(el => {
+        el.removeAttribute('fdprocessedid');
+        el.removeAttribute('data-gramm-id');
+      });
+    };
+
+    cleanExtensions();
+    const observer = new MutationObserver(cleanExtensions);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Page Content */}
@@ -74,17 +145,17 @@ export default function Page() {
           <div>
             <h3 className="text-xl font-medium mb-4">Subscribe to Our Newsletter</h3>
             <form className="flex flex-col sm:flex-row gap-2">
-              <input
+              <ExtensionProofInput
                 type="email"
                 placeholder="Your Email"
-                className="h-10 rounded-2xl text-white w-full p-2  focus:outline-none border-2 border-white"
+                className="h-10 rounded-2xl text-white w-full p-2 focus:outline-none border-2 border-white bg-transparent placeholder-gray-300"
               />
-              <button
+              <ExtensionProofButton
                 type="submit"
-                className="bg-white text-indigo-600 font-semibold px-4 py-2 rounded hover:bg-gray-100 transition"
+                className="bg-white text-indigo-600 font-semibold px-4 py-2 rounded hover:bg-gray-100 transition whitespace-nowrap"
               >
                 Subscribe
-              </button>
+              </ExtensionProofButton>
             </form>
           </div>
         </div>

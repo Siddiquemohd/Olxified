@@ -1,11 +1,12 @@
 import React from "react";
+import Image from "next/image";
 
 const products = [
   {
     id: 1,
     name: "Basic Tee",
     color: "Black",
-    price: `₹${Math.floor(Math.random() *(5000 - 1000) + 1000)}`,
+    price: `₹${Math.floor(Math.random() * (5000 - 1000) + 1000)}`,
     description: "A soft cotton tee for everyday wear.",
     imageSrc:
       "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-01.jpg",
@@ -137,11 +138,19 @@ const ProductGrid = () => {
               key={product.id}
               className="group relative border rounded-lg shadow-sm hover:shadow-lg hover:border-indigo-500 transition duration-300"
             >
-              <img
-                src={product.imageSrc}
-                alt={product.imageAlt}
-                className="aspect-square w-full rounded-t-lg bg-gray-200 object-cover transition duration-300 group-hover:opacity-90"
-              />
+              {/* Image Container - Fixed height and no hover effect */}
+              <div className="relative h-64 w-full">
+                <Image
+                  src={product.imageSrc}
+                  alt={product.imageAlt}
+                  fill
+                  className="object-cover rounded-t-lg"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  quality={80}
+                />
+              </div>
+
+              {/* Product Information - All details displayed */}
               <div className="p-4">
                 <h3 className="text-sm font-semibold text-gray-900">
                   {product.name}
@@ -149,15 +158,22 @@ const ProductGrid = () => {
                 {product.color && (
                   <p className="text-xs text-gray-500">{product.color}</p>
                 )}
-                <p className="mt-1 text-sm text-gray-600 line-clamp-2">
+                <p className="mt-1 text-sm text-gray-600">
                   {product.description}
                 </p>
-                <p className="mt-2 text-base font-semibold text-gray-900">
-                  {product.price}
-                </p>
+                <div className="mt-2 flex items-center justify-between">
+                  <p className="text-base font-semibold text-gray-900">
+                    {product.price}
+                  </p>
+                  {/* Optional: Add to cart button or other actions */}
+                  <button className="text-sm text-indigo-600 hover:text-indigo-800">
+                    View Details
+                  </button>
+                </div>
               </div>
             </div>
           ))}
+
         </div>
       </div>
     </div>
