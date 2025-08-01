@@ -166,7 +166,10 @@ const ProductGrid = () => {
                     {product.price}
                   </p>
                   {/* Optional: Add to cart button or other actions */}
-                  <button className="text-sm text-indigo-600 hover:text-indigo-800">
+                  <button
+                    className="text-sm text-indigo-600 hover:text-indigo-800"
+                  // onClick={() => handleViewDetails(product)}
+                  >
                     View Details
                   </button>
                 </div>
