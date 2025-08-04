@@ -49,42 +49,45 @@ export default function SearchBar() {
           {/* Logo */}
           <h1 className="text-2xl font-bold">Olxified</h1>
 
-          {/* Location Search - hidden on small screens */}
-          <div className="relative hidden md:flex items-center w-full md:w-auto md:flex-1">
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Enter City/Country"
-              className="text-black bg-white p-2 pl-10 rounded shadow-2xl placeholder:text-gray-700 w-full md:w-64"
-            />
-            {query && filtered.length > 0 && (
-              <ul className="absolute top-full mt-1 w-full bg-white border rounded shadow-md z-10 text-black">
-                {filtered.map((item, index) => (
-                  <li
-                    key={index}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => setQuery(item)}
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            )}
+          {/* Search Inputs Group (responsive column on mobile) */}
+          <div className="flex flex-col md:flex-row gap-3 flex-grow w-full md:w-auto">
+            {/* Enter City/Country */}
+            <div className="relative w-full md:w-auto">
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Enter City/Country"
+                className="w-full md:w-64 text-black bg-white p-2 pl-10 rounded shadow-2xl placeholder:text-gray-700"
+              />
+              {query && filtered.length > 0 && (
+                <ul className="absolute top-full mt-1 w-full bg-white border rounded shadow-md z-10 text-black">
+                  {filtered.map((item, index) => (
+                    <li
+                      key={index}
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => setQuery(item)}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Search Items */}
+            <div className="relative w-full md:w-auto">
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+              <input
+                type="text"
+                placeholder="Search Items!"
+                className="w-full md:w-64 text-black bg-white p-2 pl-10 rounded shadow-2xl placeholder:text-gray-700"
+              />
+            </div>
           </div>
 
-          {/* Item Search */}
-          <div className="relative w-full md:w-auto">
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-            <input
-              type="text"
-              placeholder="Search Items!"
-              className="text-black bg-white p-2 pl-10 rounded shadow-2xl placeholder:text-gray-700 w-full md:w-64"
-            />
-          </div>
-
-          {/* Category Dropdown */}
+          {/* Categories Dropdown */}
           <div className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -116,7 +119,7 @@ export default function SearchBar() {
             </div>
           </div>
 
-          {/* Buttons */}
+          {/* Action Buttons */}
           <div className="flex gap-2 flex-wrap">
             <button
               onClick={() => setShowSellModal(true)}
